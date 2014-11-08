@@ -1,0 +1,141 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) die();
+
+if ( ! defined( 'AKAIV_WP_CLASSES_PATH' ) ) define( 'AKAIV_WP_CLASSES_PATH', THEME_PATH . '/akaiv-wp-classes' );
+
+require_once AKAIV_WP_CLASSES_PATH . '/interface-akaiv-loggable.php';
+require_once AKAIV_WP_CLASSES_PATH . '/interface-akaiv-meta-handleable.php';
+
+require_once AKAIV_WP_CLASSES_PATH . '/class-akaiv-admin-menu.php';
+require_once AKAIV_WP_CLASSES_PATH . '/class-akaiv-ajax.php';
+require_once AKAIV_WP_CLASSES_PATH . '/class-akaiv-content.php';
+require_once AKAIV_WP_CLASSES_PATH . '/class-akaiv-flash.php';
+require_once AKAIV_WP_CLASSES_PATH . '/class-akaiv-page.php';
+require_once AKAIV_WP_CLASSES_PATH . '/class-akaiv-user.php';
+require_once AKAIV_WP_CLASSES_PATH . '/class-akaiv-user-profile.php';
+require_once AKAIV_WP_CLASSES_PATH . '/class-akaiv-utils.php';
+
+
+Akaiv_Page::setup_router( function ( $path ) {
+
+  switch ( $path ) {
+    case 'signin':
+      if ( is_user_logged_in() )
+        return wp_redirect( home_url() );
+
+      status_header( 200 );
+      if ( 'POST' === $_SERVER['REQUEST_METHOD'] && Akaiv_Utils::is_nonce_success( 'signin' ) ) {
+        if ( ! is_wp_error( wp_signon() ) ) {
+          Akaiv_Flash::set( '로그인하였습니다.', 'success' );
+          wp_redirect( empty( $_POST['redirect_to'] ) ? home_url() : $_POST['redirect_to'] );
+          die();
+        }
+
+        status_header( 403 );
+        Akaiv_Flash::set( '아이디 또는 비밀번호가 틀렸습니다.', 'warning' );
+      }
+
+      Akaiv_Page::set_title( '로그인' );
+      Akaiv_Page::set_body_class( 'page-signin' );
+      include_once THEME_PATH . '/pages/signin.php';
+
+      die();
+
+    case 'signin/lost-password':
+      if ( is_user_logged_in() )
+        return wp_redirect( home_url() );
+
+      status_header( 200 );
+      Akaiv_Page::set_title( '비밀번호 분실' );
+      Akaiv_Page::set_body_class( 'page-lost-password' );
+      include_once THEME_PATH . '/pages/lost-password.php';
+
+      die();
+
+    case 'signout':
+      wp_logout();
+      Akaiv_Flash::set( '로그아웃하였습니다.', 'success' );
+      wp_redirect( home_url() );
+
+      die();
+
+
+    case 'signup':
+      if ( is_user_logged_in() )
+        return wp_redirect( home_url() );
+
+      status_header(200);
+      if ( 'POST' === $_SERVER['REQUEST_METHOD'] && Akaiv_Utils::is_nonce_success( 'signup' ) ) {
+        if ( $_POST['user_pass'] !== $_POST['user_pass2'] )
+          Akaiv_Flash::set( '두 비밀번호는 같아야 합니다.', 'warning' );
+        else {
+          $new_user = Akaiv_User::create( $_POST, $_FILES['profile'] );
+          if ( 'object' === gettype( $new_user ) ) {
+            Akaiv_Flash::set( '회원가입이 완료되었습니다. 로그인하세요.', 'success' );
+            wp_redirect( home_url( '/signin' ) );
+            die();
+          } else
+            Akaiv_Flash::set( $new_user, 'danger' );
+        }
+
+        status_header( 400 );
+      }
+
+      Akaiv_Page::set_title( '회원가입' );
+      Akaiv_Page::set_body_class( 'page-signup' );
+      include_once THEME_PATH . '/pages/signup.php';
+
+      die();
+
+    case 'withdraw':
+      if ( ! is_user_logged_in() )
+        return wp_redirect( home_url() );
+
+      status_header(200);
+      if ( 'POST' === $_SERVER['REQUEST_METHOD'] && Akaiv_Utils::is_nonce_success( 'withdraw-' . get_current_user_id() ) ) {
+        if ( ( new Akaiv_User( get_current_user_id() ) )->withdraw( $_POST['password'] ) ) {
+          Akaiv_Flash::set( '회원탈퇴가 완료되었습니다.', 'success' );
+          wp_redirect( home_url( '/' ) );
+          die();
+        }
+
+        status_header( 403 );
+        Akaiv_Flash::set( '비밀번호가 틀렸습니다.', 'warning' );
+      }
+
+      Akaiv_Page::set_title( '회원탈퇴' );
+      Akaiv_Page::set_body_class( 'page-withdraw' );
+      include_once THEME_PATH . '/pages/withdraw.php';
+
+      die();
+
+    case 'my-account':
+      if ( ! is_user_logged_in() )
+        return wp_redirect( home_url( '/signin?redirect_to=' . home_url( '/my-account' ) ) );
+
+      status_header(200);
+      if ( 'POST' === $_SERVER['REQUEST_METHOD'] && Akaiv_Utils::is_nonce_success( 'my-account-' . get_current_user_id() ) ) {
+        if ( $_POST['user_pass'] !== $_POST['user_pass2'] )
+          Akaiv_Flash::set( '두 비밀번호는 같아야 합니다.', 'warning' );
+        else {
+          $updated_user = ( new Akaiv_User( get_current_user_id() ) )->update( $_POST, $_FILES['profile'] );
+          if ( 'object' === gettype( $updated_user ) ) {
+            Akaiv_Flash::set( '회원정보가 변경되었습니다.', 'success' );
+            wp_redirect( home_url( '/my-account' ) );
+            die();
+          } else
+            Akaiv_Flash::set( $updated_user, 'danger' );
+        }
+
+        status_header( 403 );
+      }
+
+      Akaiv_Page::set_title( '회원정보 변경' );
+      Akaiv_Page::set_body_class( 'page-my-account' );
+      $user = new Akaiv_User( get_current_user_id() );
+      include_once THEME_PATH . '/pages/my-account.php';
+
+      die();
+  }
+
+} );

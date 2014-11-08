@@ -1,3 +1,6 @@
 [submodule "style"]
 	path = style
 	url = https://github.com/akaiv/style.git
+[submodule "akaiv-wp-classes"]
+	path = akaiv-wp-classes
+	url = https://github.com/akaiv/akaiv-wp-classes.git

@@ -6,7 +6,7 @@
     <div class="site-info">
       <?php $admin = get_users( array( 'role' => 'administrator' ) )[0]; ?>
       <p class="pull-left">
-        <?php echo $admin->display_name; ?> &copy; <?php echo date( 'Y', current_time( 'timestamp' ) ); ?>
+        &copy; <?php echo date( 'Y', current_time( 'timestamp' ) ); ?> <?php echo $admin->display_name; ?>
       </p>
       <p class="pull-right">
         <a data-toggle="tooltip" data-placement="top" title="아카이브" href="http://akaiv.com/" target="_blank">akaiv</a>

@@ -17,6 +17,19 @@
 <body <?php body_class(); ?>>
 <a class="sr-only skip-link" href="#content"><?php echo 'Skip to content'; ?></a>
 
+<div class="container">
+  <?php
+    $flash_message = Akaiv_Flash::get_message();
+    $flash_context = Akaiv_Flash::get_context();
+    if ( ! empty( $flash_message ) ) :
+  ?>
+    <div class="alert alert-<?php echo $flash_context; ?> alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+      <?php echo $flash_message; ?>
+    </div>
+  <?php endif; ?>
+</div>
+
 <header id="masthead" class="site-header" role="banner">
   <nav id="gnb" class="site-navigation gnb navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
@@ -29,18 +42,30 @@
         </button>
         <a id="brand" class="site-title navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
       </div>
-      <?php
+      <div id="gnb-collapse" class="collapse navbar-collapse">
+        <?php
         wp_nav_menu( array(
           'theme_location'    => 'gnb',
           'depth'             => 2,
-          'container'         => 'div',
-          'container_id'      => 'gnb-collapse',
-          'container_class'   => 'collapse navbar-collapse navbar-right',
-          'menu_class'        => 'nav navbar-nav',
-          'fallback_cb'       => 'wp_bootstrap_navwalker::fallback',
+          'container'         => 'ul',
+          // 'container_id'      => 'gnb-collapse',
+          // 'container_class'   => 'collapse navbar-collapse navbar-right',
+          'menu_class'        => 'nav navbar-nav navbar-left',
+          'fallback_cb'       => null,
           'walker'            => new wp_bootstrap_navwalker()
         ) );
-      ?>
+        ?>
+
+        <ul class="nav navbar-nav navbar-right">
+          <?php if ( is_user_logged_in() ) : ?>
+            <li><a href="<?php echo home_url( '/signout' ); ?>">로그아웃</a></li>
+            <li><a href="<?php echo home_url( '/my-account' ); ?>"><?php echo (new Akaiv_User( get_current_user_id() ) )->username; ?></a></li>
+          <?php else : ?>
+            <li><a href="<?php echo home_url( '/signup' ); ?>">회원가입</a></li>
+            <li><a href="<?php echo home_url( '/signin' ); ?>">로그인</a></li>
+          <?php endif; ?>
+        </ul>
+      </div>
     </div><!-- .container -->
   </nav>
 </header><!-- #masthead -->

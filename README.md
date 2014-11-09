@@ -1,17 +1,17 @@
-# 베이스 테마
+# SEED 테마
 ## 개요
 * 설명: [워드프레스](https://wordpress.org) 테마를 만들때 기초가 되는 파일들입니다.
-* 작성자: [심철환](https://github.com/s10n)
+* 작성자: [아카이브 연구소](http://akaivlabs.com)의 [심철환](http://simcheolhwan.com), [신희성](http://lumiere0b.net/)
 
 ## 테마 설치
 * 워드프레스 테마 디렉토리에 이 리파지토리를 클론합니다.
 ```bash
 cd wp-content/themes
-git clone https://github.com/s10n/base.git
+git clone https://github.com/akaiv/wordpress-seed.git
 ```
 * 서브모듈을 초기화하고 업데이트합니다.
 ```bash
-cd base
+cd wordpress-seed
 git submodule init
 git submodule update
 ```

@@ -15,6 +15,38 @@ require_once AKAIV_WP_CLASSES_PATH . '/class-akaiv-user.php';
 require_once AKAIV_WP_CLASSES_PATH . '/class-akaiv-user-profile.php';
 require_once AKAIV_WP_CLASSES_PATH . '/class-akaiv-utils.php';
 
+// Knowledge
+Akaiv_Content::register_post_type( 'knowledge', 'Knowledge', array(
+  'public'          => true,
+  'menu_position'   => 30,
+  'menu_icon'       => 'dashicons-welcome-learn-more',
+  'capability_type' => 'post',
+  'supports'        => array( 'title', 'editor', 'thumbnail' ),
+  'taxonomies'      => array( 'knowledge_type' ),
+  'has_archive'     => true,
+) );
+Akaiv_Content::register_taxonomy( 'knowledge_type', 'knowledge', 'knowledge_type', array(
+  'public'            => true,
+  'show_tagcloud'     => false,
+  'show_admin_column' => true,
+  'hierarchical'      => true
+) );
+Akaiv_Content::manage_custom_columns( 'knowledge', function ( $columns ) {
+  return array(
+    'cb'                      => '<input type="checkbox">',
+    'title'                   => 'Title',
+    'taxonomy-knowledge_type' => 'Type',
+    'date'                    => 'Date'
+  );
+
+} );
+Akaiv_Content::manage_custom_column( 'knowledge', function ( $column, $post_id ) {
+  switch( $column ) {
+    default :
+      break;
+  }
+
+} );
 
 Akaiv_Page::setup_router( function ( $path ) {
 

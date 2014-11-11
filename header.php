@@ -31,7 +31,20 @@
 </div>
 
 <header id="masthead" class="site-header" role="banner">
-  <nav id="gnb" class="site-navigation gnb navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+    <h1 class="text-center"><a id="brand" class="site-title" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+    <ul class="list-inline pull-right">
+      <?php if ( is_user_logged_in() ) : ?>
+        <li><a href="<?php echo home_url( '/signout' ); ?>">로그아웃</a></li>
+        <li><a href="<?php echo home_url( '/my-account' ); ?>">마이페이지</a></li>
+      <?php else : ?>
+        <li><a href="<?php echo home_url( '/signup' ); ?>">회원가입</a></li>
+        <li><a href="<?php echo home_url( '/signin' ); ?>">로그인</a></li>
+      <?php endif; ?>
+    </ul>
+  </div>
+
+  <nav id="gnb" class="site-navigation gnb navbar navbar-inverse" role="navigation">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#gnb-collapse">
@@ -40,30 +53,13 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a id="brand" class="site-title navbar-brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
       </div>
       <div id="gnb-collapse" class="collapse navbar-collapse">
-        <?php
-        wp_nav_menu( array(
-          'theme_location'    => 'gnb',
-          'depth'             => 2,
-          'container'         => 'ul',
-          // 'container_id'      => 'gnb-collapse',
-          // 'container_class'   => 'collapse navbar-collapse navbar-right',
-          'menu_class'        => 'nav navbar-nav navbar-left',
-          'fallback_cb'       => null,
-          'walker'            => new wp_bootstrap_navwalker()
-        ) );
-        ?>
-
-        <ul class="nav navbar-nav navbar-right">
-          <?php if ( is_user_logged_in() ) : ?>
-            <li><a href="<?php echo home_url( '/signout' ); ?>">로그아웃</a></li>
-            <li><a href="<?php echo home_url( '/my-account' ); ?>"><?php echo (new Akaiv_User( get_current_user_id() ) )->username; ?></a></li>
-          <?php else : ?>
-            <li><a href="<?php echo home_url( '/signup' ); ?>">회원가입</a></li>
-            <li><a href="<?php echo home_url( '/signin' ); ?>">로그인</a></li>
-          <?php endif; ?>
+        <ul class="nav navbar-nav">
+          <li><a href>Match</a></li>
+          <li><a href>Rank</a></li>
+          <li><a href>Knowledge</a></li>
+          <li><a href>News</a></li>
         </ul>
       </div>
     </div><!-- .container -->

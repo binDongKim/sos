@@ -48,6 +48,32 @@ Akaiv_Content::manage_custom_column( 'knowledge', function ( $column, $post_id )
 
 } );
 
+Akaiv_Content::register_post_type( 'news', 'News', array(
+  'public'          => true,
+  'menu_position'   => 31,
+  'menu_icon'       => 'dashicons-megaphone',
+  'capability_type' => 'post',
+  'supports'        => array( 'title', 'editor', 'thumbnail' ),
+  'has_archive'     => true
+) );
+Akaiv_Content::manage_custom_columns( 'news', function ( $colummns ) {
+  return array(
+    'cb' => '<input type="checkbox">',
+    'thumbnail' => '',
+    'title' => 'Title',
+    'date' => 'Date'
+  );
+
+} );
+Akaiv_Content::manage_custom_column( 'news', function ( $column, $post_id ) {
+  switch( $column ) {
+    case 'thumbnail':
+      echo get_the_post_thumbnail( get_the_ID(), array( 100, 100 ) );
+      break;
+  }
+
+} );
+
 Akaiv_Page::setup_router( function ( $path ) {
 
   switch ( $path ) {

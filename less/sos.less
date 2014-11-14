@@ -40,13 +40,19 @@
   margin-left: 20px;
 }
 
+.rank-data-wrapper {
+  margin-top: 20px;
+}
 .team-emblem {
   display: inline;
   width: 40px;
   height: 40px;
 }
-
+.league-filter-select {
+  width: 300px;
+}
 .sos-table {
+  table-layout: fixed;
   > thead,
   > tbody,
   > tfoot {
@@ -54,16 +60,22 @@
     > tr > td {
       text-align: center;
       vertical-align: middle;
-      width: 150px;
+      width: 180px;
       padding: 5px;
     }
-  }
-  > tbody > tr > .team-name{
-    text-align: left;
-    width: auto;
+    > tr > .team-rank {
+      width: 100px;
+    }
+    > tr > .team-name {
+      text-align: left;
+      width: auto;
+    }
+    > tr > th.thead {
+      text-align: center;
+    }
   }
   .team-emblem {
-    // margin-left: 20px;
+    margin-left: 90px;
     margin-right: 5px;
   }
 }

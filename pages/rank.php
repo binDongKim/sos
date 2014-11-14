@@ -5,14 +5,14 @@ akaiv_before_page();
 akaiv_page_header( 'Rank' ); ?>
 
 <form method="GET" action="">
-  <select class="form-control" data-league-filter>
+  <select class="form-control league-filter-select" data-league-filter>
     <?php foreach ( array( 354, 358 ) as $id ) : ?>
-      <option value="<?php echo $id; ?>"><?php echo ( ( 354 === $id ) ? 'Premier League' : 'Primera Division' ) . ' 2014/15'; ?></option>
+      <option value="<?php echo $id; ?>" <?php echo ( ( $id == $league_id ) ? 'selected' : '' ); ?>><?php echo ( ( 354 === $id ) ? 'Premier League' : 'Primera Division' ) . ' 2014/15'; ?></option>
     <?php endforeach; ?>
   </select>
 </form>
 
-<div role="tabpanel">
+<div role="tabpanel" class="rank-data-wrapper">
   <ul class="nav nav-pills" role="tablist">
     <li class="active"><a href="#team-rank" role="tab" data-toggle="tab">Team</a></li>
     <li><a href="#player-rank" role="tab" data-toggle="tab">Player</a></li>
@@ -23,8 +23,8 @@ akaiv_page_header( 'Rank' ); ?>
       <table class="table sos-table">
         <thead>
           <tr>
-            <th>Rank</th>
-            <th>Team</th>
+            <th class="team-rank">Rank</th>
+            <th class="team-name thead">Team</th>
             <th>Points</th>
             <th>Goals</th>
             <th>GoalsAgainst</th>
@@ -34,7 +34,7 @@ akaiv_page_header( 'Rank' ); ?>
         <tbody>
           <?php foreach ( $rank_arr['ranking'][0] as $rank ) : ?>
             <tr>
-              <td><?php echo $rank['rank']; ?></td>
+              <td class="team-rank"><?php echo $rank['rank']; ?></td>
               <?php $emblem_src = ( ! $rank['crestURI'] ) ? THEME_URL . '/images/no_image.svg' : $rank['crestURI']; ?>
               <td class="team-name"><img src="<?php echo $emblem_src; ?>" class="team-emblem"><?php echo $rank['team']; ?></td>
               <td><?php echo $rank['points']; ?></td>

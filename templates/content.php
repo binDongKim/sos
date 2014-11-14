@@ -7,7 +7,9 @@
       <?php akaiv_the_title(); ?>
     </h1>
     <div class="entry-meta">
-      <?php akaiv_post_meta(); ?>
+      <?php akaiv_post_meta( 'category' ); ?>
+      <?php akaiv_post_meta( 'date' ); ?>
+      <?php akaiv_post_meta( 'author' ); ?>
       <?php akaiv_edit_post_link(); ?>
     </div>
   </header>
@@ -32,7 +34,7 @@
         </h1>
       </header>
       <div class="entry-summary">
-        <a href="<?php the_permalink(); ?>"><?php the_excerpt(); ?></a>
+        <?php the_excerpt(); ?>
       </div>
     </div><!-- column: 제목과 요약 -->
   </div><!-- .row -->

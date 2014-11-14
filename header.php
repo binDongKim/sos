@@ -57,9 +57,9 @@
       <div id="gnb-collapse" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <li><a href>Match</a></li>
-          <li><a href>Rank</a></li>
-          <li><a href>Knowledge</a></li>
-          <li><a href>News</a></li>
+          <li><a href="<?php echo home_url( '/rank' ); ?>">Rank</a></li>
+          <li><a href="<?php echo home_url( '/knowledge' ); ?>">Knowledge</a></li>
+          <li><a href="<?php echo home_url( '/news' ); ?>">News</a></li>
         </ul>
       </div>
     </div><!-- .container -->

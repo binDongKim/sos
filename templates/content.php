@@ -23,22 +23,23 @@
 
 <?php else : /* 목록 */ ?>
 
-  <div class="row">
-    <div class="col-xs-3 col-sm-2">
+  <?php if ( 'knowledge' === get_post_type() ) : ?>
+    <div class="type-link-wrapper">
+      <a class="type-link" href><?php echo wp_get_post_terms(get_the_ID(),'knowledge_type')[0]->name; ?></a>
+    </div>
+  <?php else : /* 'news' === get_post_type() */ ?>
+    <div class="thumbnail-wrapper">
       <?php akaiv_post_thumbnail(); ?>
-    </div><!-- column: 썸네일 -->
-    <div class="col-xs-9 col-sm-10">
-      <header class="entry-header">
-        <h1 class="entry-title">
-          <a href="<?php echo esc_url( get_permalink() ); ?>" rel="bookmark"><?php akaiv_the_title(); ?></a>
-        </h1>
-      </header>
-      <div class="entry-summary">
-        <?php the_excerpt(); ?>
-      </div>
-    </div><!-- column: 제목과 요약 -->
-  </div><!-- .row -->
-
+    </div>
+  <?php endif; ?>
+  <div class="entry-wrapper">
+    <h1 class="entry-title" data-toggle="collapse" data-target="#<?php echo get_the_ID(); ?>">
+      <?php akaiv_the_title(); ?>
+    </h1>
+    <div id="<?php echo get_the_ID(); ?>" class="entry-content collapse">
+      <?php the_content(); ?>
+    </div>
+  </div>
 <?php endif; ?>
 
 <?php akaiv_after_page(); ?>

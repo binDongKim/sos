@@ -74,6 +74,7 @@ Akaiv_Content::manage_custom_column( 'news', function ( $column, $post_id ) {
 
 } );
 
+
 Akaiv_Page::setup_router( function ( $path ) {
 
   switch ( $path ) {
@@ -197,12 +198,11 @@ Akaiv_Page::setup_router( function ( $path ) {
 
     case 'rank':
       status_header(200);
-      $id = $_GET['id'] ? $_GET['id'] : 354;
-      // $rank_arr = array(); // epl , liga
-      // foreach ( array( 354, 358 ) as $id ) {
-      //   array_push( $rank_arr, getRankById($id) );
-      // }
-      $rank_arr = getRankById($id);
+      $league_id = $_GET['league_id'] ? $_GET['league_id'] : 354;
+      $ajax_req = empty( $_GET['ajax_req'] ) ? false : true;
+
+      $rank_arr = getRankById($league_id);
+
       Akaiv_Page::set_title( 'Rank' );
       Akaiv_Page::set_body_class( 'page-rank' );
       include_once THEME_PATH . '/pages/rank.php';

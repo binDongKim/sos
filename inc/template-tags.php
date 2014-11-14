@@ -48,7 +48,8 @@ function akaiv_page_header($str = null) { ?>
         elseif ( is_author()   ) : the_post(); echo get_the_author().'의 모든 글'; rewind_posts();
         elseif ( is_tag()      ) : single_tag_title();
         elseif ( is_category() ) : single_cat_title();
-        else                     : echo '보관함';
+        else                     : $obj = get_post_type_object( get_post_type() );
+                                   echo $obj->labels->singular_name;
         endif;
 
         /* Term Description */
@@ -79,23 +80,13 @@ function akaiv_post_thumbnail() {
     return;
   endif;
 
-  if ( is_singular() ) : /* 포스트, 페이지, 첨부파일의 경우 */
-    if ( has_post_thumbnail() ) : ?>
-      <div class="post-thumbnail">
-        <?php the_post_thumbnail('full'); ?>
-      </div><?php
-    endif;
-
-  else : /* 외부: a.post-thumbnail에 링크 부여하고 썸네일을 가져옴 */ ?>
-    <a class="post-thumbnail" href="<?php the_permalink(); ?>"><?php
-      if ( has_post_thumbnail() ) :
-        the_post_thumbnail('thumbnail');
-      else : ?>
-        <img width="150" height="150" src="<?php echo get_template_directory_uri(); ?>/images/thumbnail-post.png" class="attachment-thumbnail wp-post-image" alt="<?php echo get_the_title(); ?>"><?php
-      endif; ?>
-    </a><?php
-
-  endif; /* End is_singular() */
+  if ( has_post_thumbnail() ) : ?>
+    <div class="post-thumbnail">
+      <?php the_post_thumbnail('thumbnail'); ?>
+    </div><?php
+  else : ?>
+    <img width="150" height="150" src="<?php echo get_template_directory_uri(); ?>/images/thumbnail-post.png" class="attachment-thumbnail wp-post-image" alt="<?php echo get_the_title(); ?>"><?php
+  endif;
 }
 
 /* 레티나 대응 썸네일 */

@@ -8,3 +8,11 @@ require_once 'inc/enqueue.php';
 require_once 'inc/init.php';
 require_once 'inc/template-tags.php';
 require_once 'inc/wp_bootstrap_navwalker.php';
+
+$domain = 'http://www.football-data.org';
+
+function getRankbyId( $id ) {
+  $rank_api = $GLOBALS['domain'] . '/soccerseasons/' . $id . '/ranking';
+  $rank     = json_decode(wp_remote_get($rank_api)['body'], true);
+  return $rank;
+}

@@ -54,7 +54,7 @@ Akaiv_Content::register_post_type( 'news', 'News', array(
   'menu_icon'       => 'dashicons-megaphone',
   'capability_type' => 'post',
   'supports'        => array( 'title', 'editor', 'thumbnail' ),
-  'has_archive'     => true
+  'has_archive'     => true,
 ) );
 Akaiv_Content::manage_custom_columns( 'news', function ( $colummns ) {
   return array(
@@ -192,6 +192,20 @@ Akaiv_Page::setup_router( function ( $path ) {
       Akaiv_Page::set_body_class( 'page-my-account' );
       $user = new Akaiv_User( get_current_user_id() );
       include_once THEME_PATH . '/pages/my-account.php';
+
+      die();
+
+    case 'rank':
+      status_header(200);
+      $id = $_GET['id'] ? $_GET['id'] : 354;
+      // $rank_arr = array(); // epl , liga
+      // foreach ( array( 354, 358 ) as $id ) {
+      //   array_push( $rank_arr, getRankById($id) );
+      // }
+      $rank_arr = getRankById($id);
+      Akaiv_Page::set_title( 'Rank' );
+      Akaiv_Page::set_body_class( 'page-rank' );
+      include_once THEME_PATH . '/pages/rank.php';
 
       die();
   }

@@ -1,0 +1,69 @@
+// 동그라미 wrapper
+@circle: 50px;
+@circle-lg: 75px;
+
+.type-link-wrapper{
+  float: left;
+  width: @circle;
+  @media (min-width: @phone) {
+    width: @circle-lg;
+  }
+}
+
+.type-link {
+  background-color: @gray-95;
+  color: @gray-66;
+  display: inline-block;
+  font-weight: bold;
+  line-height: @circle;
+  border-radius: 50%;
+  text-align: center;
+  overflow: hidden;
+  .square(@circle);
+  @media (min-width: @phone) {
+    .square(@circle-lg);
+    line-height: @circle-lg;
+  }
+  &:hover,
+  &:focus {
+    background-color: @gray-90;
+    color: @gray-33;
+  }
+}
+
+.thumbnail-wrapper {
+  float: left;
+}
+
+.entry-wrapper {
+  float: left;
+  margin-left: 20px;
+}
+
+.team-emblem {
+  display: inline;
+  width: 40px;
+  height: 40px;
+}
+
+.sos-table {
+  > thead,
+  > tbody,
+  > tfoot {
+    > tr > th,
+    > tr > td {
+      text-align: center;
+      vertical-align: middle;
+      width: 150px;
+      padding: 5px;
+    }
+  }
+  > tbody > tr > .team-name{
+    text-align: left;
+    width: auto;
+  }
+  .team-emblem {
+    // margin-left: 20px;
+    margin-right: 5px;
+  }
+}

@@ -9,7 +9,7 @@
         &copy; <?php echo date( 'Y', current_time( 'timestamp' ) ); ?> <?php echo $admin->display_name; ?>
       </p>
       <p class="pull-right">
-        <a data-toggle="tooltip" data-placement="top" title="아카이브" href="http://akaiv.com/" target="_blank">Bin</a>
+        <a data-toggle="tooltip" data-placement="top" title="binDongKim@gmail.com" href="mailto:binDongKim@gmail.com" target="_blank">Bin</a>
         <a class="link-admin" href="<?php echo get_admin_url(); ?>" target="_blank"><i class="fa fa-smile-o"></i></a>
         <a data-toggle="tooltip" data-placement="top" title="Proudly Powered by WordPress" href="http://wordpress.org/" target="_blank">WordPress</a>
       </p>

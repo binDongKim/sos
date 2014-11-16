@@ -1,9 +1,8 @@
 <?php
 get_header();
 akaiv_before_content();
-akaiv_before_page();
-akaiv_page_header( '비밀번호 분실' );
-?>
+akaiv_before_post( false );
+akaiv_page_header( '비밀번호 분실' ); ?>
 
 <div class="page-content">
   <form method="POST" action="<?php echo wp_lostpassword_url( home_url( '/signin' ) ); ?>">
@@ -18,6 +17,6 @@ akaiv_page_header( '비밀번호 분실' );
 </div><!-- .page-content -->
 
 <?php
-akaiv_after_page();
+akaiv_after_post();
 akaiv_after_content();
 get_footer();

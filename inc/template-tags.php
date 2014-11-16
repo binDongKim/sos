@@ -1,19 +1,8 @@
 <?php
-
 /* 본문 영역 시작 */
 function akaiv_before_content() {
   // get_sidebar(); ?>
   <div id="content" class="site-content" role="main"><?php
-}
-
-/* 페이지 시작 */
-function akaiv_before_page() { ?>
-  <article <?php post_class(); ?>><?php
-}
-
-/* 페이지 끝 */
-function akaiv_after_page() { ?>
-  </article><?php
 }
 
 /* 본문 영역 끝 */
@@ -21,144 +10,87 @@ function akaiv_after_content() { ?>
   </div><!-- #content --><?php
 }
 
-/* 페이지 헤더: 글 및 보관함 */
-function akaiv_page_header($str = null) { ?>
+/* 페이지 헤더 */
+function akaiv_page_header($heading = null) { ?>
   <header class="page-header">
     <h1 class="page-title"><?php
-      if ( $str ) :
-        echo $str;
-
-      elseif ( is_404() ) :
-        echo 'Not Found';
-
-      elseif ( is_search() ) :
-        printf( '검색 결과: %s', get_search_query() );
-
-      elseif ( is_archive()  ) :
-            if ( is_tax( 'post_format', 'post-format-aside'   ) ) : echo '추가 정보';
-        elseif ( is_tax( 'post_format', 'post-format-image'   ) ) : echo '이미지';
-        elseif ( is_tax( 'post_format', 'post-format-video'   ) ) : echo '비디오';
-        elseif ( is_tax( 'post_format', 'post-format-audio'   ) ) : echo '오디오';
-        elseif ( is_tax( 'post_format', 'post-format-quote'   ) ) : echo '인용';
-        elseif ( is_tax( 'post_format', 'post-format-link'    ) ) : echo '링크';
-        elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) : echo '갤러리';
-        elseif ( is_day()      ) : echo get_the_date();
-        elseif ( is_month()    ) : echo get_the_date( 'Y년 F' );
-        elseif ( is_year()     ) : echo get_the_date( 'Y년' );
-        elseif ( is_author()   ) : the_post(); echo get_the_author().'의 모든 글'; rewind_posts();
-        elseif ( is_tag()      ) : single_tag_title();
-        elseif ( is_category() ) : single_cat_title();
-        else                     : echo '보관함';
-        endif;
-
-        /* Term Description */
+      if ( $heading ) :
+        echo $heading;
+      elseif ( is_archive() ) :
         $term_description = term_description();
-        if ( ! empty( $term_description ) ) : ?>
-          <small class="taxonomy-description"><?php echo $term_description; ?></small><?php
+        if ( empty( $term_description ) ) :
+          akaiv_page_title();
+        else :
+          akaiv_page_title();
+          echo '<small class="taxonomy-description">'.$term_description.'</small>';
         endif;
-
       else :
-        echo get_the_title();
-
+        akaiv_page_title();
       endif; ?>
     </h1>
   </header><?php
 }
 
-/* 글: 제목 */
-function akaiv_the_title() {
-  $title = trim(get_the_title());
-  if ( ! $title ) $title = '(제목이 없는 글)';
-  echo $title;
-}
+/* 페이지 제목 */
+function akaiv_page_title() {
+  if ( is_404() ) :
+    echo 'Not Found';
 
-/* 글: 썸네일 */
-function akaiv_post_thumbnail() {
-  if ( post_password_required() && ! is_singular() ) : /* 비밀번호가 필요한 경우 */ ?>
-    <a class="post-thumbnail" href="<?php the_permalink(); ?>"><img width="150" height="150" src="<?php echo get_template_directory_uri(); ?>/images/thumbnail-lock.png" class="attachment-thumbnail wp-post-image" alt="<?php echo get_the_title(); ?>"></a><?php
-    return;
-  endif;
+  elseif ( is_search() ) :
+    printf( '검색 결과: %s', get_search_query() );
 
-  if ( is_singular() ) : /* 포스트, 페이지, 첨부파일의 경우 */
-    if ( has_post_thumbnail() ) : ?>
-      <div class="post-thumbnail">
-        <?php the_post_thumbnail('full'); ?>
-      </div><?php
+  elseif ( is_archive() ) :
+        if ( is_tax( 'post_format', 'post-format-aside'   ) ) : echo '추가 정보';
+    elseif ( is_tax( 'post_format', 'post-format-image'   ) ) : echo '이미지';
+    elseif ( is_tax( 'post_format', 'post-format-video'   ) ) : echo '비디오';
+    elseif ( is_tax( 'post_format', 'post-format-audio'   ) ) : echo '오디오';
+    elseif ( is_tax( 'post_format', 'post-format-quote'   ) ) : echo '인용';
+    elseif ( is_tax( 'post_format', 'post-format-link'    ) ) : echo '링크';
+    elseif ( is_tax( 'post_format', 'post-format-gallery' ) ) : echo '갤러리';
+    elseif ( is_tax( 'post_format', 'post-format-status'  ) ) : echo '상태';
+    elseif ( is_tax( 'post_format', 'post-format-chat'    ) ) : echo '챗';
+    elseif ( is_category() ) : single_cat_title();
+    elseif ( is_tag()      ) : single_tag_title();
+    elseif ( is_author()   ) : the_post(); echo get_the_author().'의 모든 글'; rewind_posts();
+    elseif ( is_year()     ) : echo get_the_date( 'Y년' );
+    elseif ( is_month()    ) : echo get_the_date( 'Y년 F' );
+    elseif ( is_day()      ) : echo get_the_date();
+    else                     : echo '보관함';
     endif;
 
-  else : /* 외부: a.post-thumbnail에 링크 부여하고 썸네일을 가져옴 */ ?>
-    <a class="post-thumbnail" href="<?php the_permalink(); ?>"><?php
-      if ( has_post_thumbnail() ) :
-        the_post_thumbnail('thumbnail');
-      else : ?>
-        <img width="150" height="150" src="<?php echo get_template_directory_uri(); ?>/images/thumbnail-post.png" class="attachment-thumbnail wp-post-image" alt="<?php echo get_the_title(); ?>"><?php
-      endif; ?>
-    </a><?php
+  elseif ( is_singular() ) :
+    echo get_the_title();
 
-  endif; /* End is_singular() */
-}
-
-/* 레티나 대응 썸네일 */
-function the_post_thumbnail_srcset($size1x, $size2x) {
-  $post_thumbnail_id = get_post_thumbnail_id( get_the_ID() );
-  $image = wp_get_attachment_image_src( $post_thumbnail_id, $size2x );
-  list($src, $width, $height) = $image;
-  $attr = array( 'srcset' => $src.' 2x' );
-  the_post_thumbnail($size1x, $attr);
-}
-
-/* 글: 메타 */
-function akaiv_post_meta($str = null) {
-  if ( ! $str ) :
-    return;
-
-  elseif ( $str == 'category' ) : ?>
-    <span class="cat-links"><i class="fa fa-fw fa-folder-open"></i> <?php echo get_the_category_list( ', ' ); ?></span><?php
-
-  elseif ( $str == 'tag' ) :
-    if ( has_tag() ) : ?>
-      <span class="tag-links"><i class="fa fa-fw fa-tag"></i> <?php the_tags('', ', ', ''); ?></span><?php
-    endif;
-
-  elseif ( $str == 'date' ) : ?>
-    <span class="posted-on"><i class="fa fa-fw fa-clock-o"></i> <a href="<?php echo esc_url( get_permalink() ); ?>" rel="bookmark"><time class="entry-date" datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date() ) ?></time></a></span><?php
-
-  elseif ( $str == 'author' ) : ?>
-    <span class="author"><i class="fa fa-fw fa-user"></i> <a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author"><?php echo get_the_author(); ?></a></span><?php
-
-  endif;
-}
-
-/* 글: 편집 링크 */
-function akaiv_edit_post_link() {
-  if ( is_single() ) :
-    edit_post_link( '편집', '<span class="edit-link"><i class="fa fa-fw fa-pencil"></i> ', '</span>' );
   else :
-    edit_post_link( '편집', '<div class="text-right"><span class="edit-link">', '</span></div>' );
+    echo get_bloginfo( 'name', 'display' );
+
   endif;
 }
 
-/* 글: 내비게이션 버튼 */
-function akaiv_post_nav() {
-  // Don't print empty markup if there's nowhere to navigate.
-  $previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
-  $next     = get_adjacent_post( false, '', false );
+/* 페이지 주소 */
+function akaiv_url() {
+  if ( is_search() ) :
+    $canonical = get_search_link();
 
-  if ( ! $next && ! $previous ) return; ?>
+  elseif ( is_archive() ) :
+        if ( is_tax( 'post_format' ) ) : $canonical = get_term_link( get_query_var( 'post_format' ), 'post_format' );
+    elseif ( is_category()           ) : $canonical = get_term_link( get_query_var( 'cat' ), 'category' );
+    elseif ( is_tag()                ) : $canonical = get_term_link( get_query_var( 'tag' ), 'post_tag' );
+    elseif ( is_author()             ) : $canonical = get_author_posts_url( get_query_var( 'author' ), get_query_var( 'author_name' ) );
+    elseif ( is_year()               ) : $canonical = get_year_link(  get_query_var( 'year' ) );
+    elseif ( is_month()              ) : $canonical = get_month_link( get_query_var( 'year' ), get_query_var( 'monthnum' ) );
+    elseif ( is_day()                ) : $canonical = get_day_link(   get_query_var( 'year' ), get_query_var( 'monthnum' ), get_query_var( 'day' ) );
+    else                               : $canonical = '';
+    endif;
 
-  <nav class="navigation post-navigation" role="navigation">
-    <h1 class="screen-reader-text"><?php echo 'Post navigation'; ?></h1>
-    <div class="nav-links"><?php
-      if ( is_attachment() ) : /* 첨부파일 페이지일 때 */ ?>
-        <div class="published-in"><?php
-          previous_post_link( '%link', '<i class="fa fa-fw fa-folder-open"></i> 발행 위치: ' . '%title' ); ?>
-        </div><?php
-      else : /* 첨부파일 페이지가 아닐 때 */
-        previous_post_link( '%link', '<i class="fa fa-fw fa-angle-left"></i> 이전 글');
-        next_post_link( '%link', '다음 글 <i class="fa fa-fw fa-angle-right"></i>' );
-      endif; ?>
-    </div>
-  </nav><?php
+  elseif ( is_singular() ) :
+    $canonical = get_permalink();
+
+  else :
+    $canonical = home_url( '/' );
+
+  endif;
+  echo esc_url( $canonical );
 }
 
 /* 보관함: 페이지네이션 */
@@ -188,4 +120,71 @@ function akaiv_paginate_links() {
     endif;
     echo '</nav>';
   endif;
+}
+
+/* 타이틀 */
+function akaiv_title() {
+  wp_title( '|', true, 'right');
+}
+
+/* 메타: 루프 바깥에서 */
+function akaiv_meta($meta = null) {
+  if ( ! $meta ) return;
+
+  if ( $meta == 'title' ) :
+    akaiv_title();
+
+  elseif ( $meta == 'url' ) :
+    akaiv_url();
+
+  elseif ( $meta == 'description' ) :
+    $excerpt = strip_tags(get_the_excerpt());
+    if ( ! $excerpt ) :
+      $queried_object = get_queried_object();
+      $excerpt = akaiv_trim_excerpt( $queried_object->post_content );
+    endif;
+    echo $excerpt;
+
+  elseif ( $meta == 'section' ) :
+    echo get_the_category()[0]->cat_name;
+
+  elseif ( $meta == 'tags' ) :
+    $tags = get_the_tags();
+    if ( ! $tags ) $tags = array();
+    return $tags;
+
+  elseif ( $meta == 'time' ) :
+    echo esc_attr( get_the_date( 'c' ) );
+
+  elseif ( $meta == 'author' ) :
+    $queried_object = get_queried_object();
+    $author_id = $queried_object->post_author;
+    echo get_the_author_meta( 'display_name', $author_id );
+
+  elseif ( $meta == 'image' ) :
+    $fb_image = get_template_directory_uri().'/images/fb-image.jpg';
+    if ( is_singular() ) :
+      $thumbnail_src = akaiv_get_post_thumbnail_src();
+      $image         = ( $thumbnail_src ) ? $thumbnail_src : $fb_image;
+    else :
+      $image = $fb_image;
+    endif;
+    echo $image;
+
+  else :
+    return;
+
+  endif;
+}
+
+/* 요약 생성 */
+function akaiv_trim_excerpt($text = '') {
+  /** wp-includes/formatting.php에서 wp_trim_excerpt() 함수를 복제 */
+  $text = strip_shortcodes( $text );
+  $text = apply_filters( 'the_content', $text );
+  $text = str_replace(']]>', ']]&gt;', $text);
+  $excerpt_length = apply_filters( 'excerpt_length', 55 );
+  $excerpt_more = apply_filters( 'excerpt_more', ' ' . '&hellip;' );
+  $text = wp_trim_words( $text, $excerpt_length, $excerpt_more );
+  return $text;
 }

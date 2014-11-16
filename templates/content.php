@@ -1,4 +1,4 @@
-<?php akaiv_before_page(); ?>
+<?php akaiv_before_post(); ?>
 
 <?php if ( is_single() ) : /* 글 */ ?>
 
@@ -17,9 +17,11 @@
   <div class="entry-content">
     <?php the_content(); ?>
   </div>
-  <div class="entry-meta">
-    <span class="tag-links"><?php the_tags('', ' ', ''); ?></span>
-  </div>
+  <?php if ( has_tag() ) : ?>
+    <div class="entry-meta">
+      <span class="tag-links"><?php the_tags('', ' ', ''); ?></span>
+    </div>
+  <?php endif; ?>
 
 <?php else : /* 목록 */ ?>
 
@@ -41,4 +43,4 @@
 
 <?php endif; ?>
 
-<?php akaiv_after_page(); ?>
+<?php akaiv_after_post(); ?>

@@ -1,9 +1,8 @@
 <?php
 get_header();
 akaiv_before_content();
-akaiv_before_page();
-akaiv_page_header( '로그인' );
-?>
+akaiv_before_post( false );
+akaiv_page_header( '로그인' ); ?>
 
 <div class="page-content">
   <form method="POST" action>
@@ -32,6 +31,6 @@ akaiv_page_header( '로그인' );
 </div><!-- .page-content -->
 
 <?php
-akaiv_after_page();
+akaiv_after_post();
 akaiv_after_content();
 get_footer();

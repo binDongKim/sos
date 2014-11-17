@@ -4,9 +4,10 @@
   <meta charset="<?php bloginfo( 'charset' ); ?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-  <title><?php wp_title( '|', true, 'right' ); ?></title>
+  <title><?php akaiv_title(); ?></title>
   <link rel="profile" href="http://gmpg.org/xfn/11">
   <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+  <link rel="alternate" type="application/rss+xml" title="<?php echo get_bloginfo( 'name' ); ?> &mdash; 피드" href="<?php echo esc_url( get_feed_link() ); ?>">
   <?php wp_head(); ?>
   <!--[if lt IE 9]>
     <script src="<?php echo get_template_directory_uri(); ?>/assets/html5shiv/dist/html5shiv.min.js"></script>
@@ -67,4 +68,4 @@
 </header><!-- #masthead -->
 
 <div id="main" class="site-main">
-  <?php if ( !is_front_page() ) echo '<div class="container">'; ?>
+  <?php if ( ! is_home() && ! is_front_page() ) echo '<div class="container">'; ?>

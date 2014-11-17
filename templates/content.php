@@ -31,7 +31,7 @@
     </div>
   <?php else : /* 'news' === get_post_type() */ ?>
     <div class="thumbnail-wrapper">
-      <?php akaiv_post_thumbnail(); ?>
+      <figure class="post-thumbnail"><?php the_post_thumbnail( 'thumbnail' ); ?></figure>
     </div>
   <?php endif; ?>
   <div class="entry-wrapper">

@@ -196,12 +196,45 @@ Akaiv_Page::setup_router( function ( $path ) {
 
       die();
 
+    case 'match':
+      status_header(200);
+      Akaiv_Page::set_title( 'Match' );
+      Akaiv_Page::set_body_class( 'page-match' );
+      include_once THEME_PATH . '/pages/match.php';
+
+      die();
+
     case 'rank':
       status_header(200);
       $league_id = $_GET['league_id'] ? $_GET['league_id'] : 354;
       $ajax_req = empty( $_GET['ajax_req'] ) ? false : true;
 
-      $rank_arr = getRankById($league_id);
+      $team_rank = get_option( $league_id, array() );
+
+      $last_updated = $team_rank[0]['updated_at'];
+      $cur_time = date(mktime());
+      if ( empty( $team_rank ) || ( ( $cur_time - $last_updated ) / 3600 ) >= 1 ) {
+        var_dump('1시간 지났다' . ($cur_time - $last_updated) / 3600 );
+        $rank_arr = getRankById($league_id);
+
+        $team_rank = array();
+        $team_rank[] = array(
+          'updated_at'  => $cur_time,
+          'league_name' => $rank_arr['league']
+        );
+        foreach( $rank_arr['ranking'][0] as $rank )
+          $team_rank['ranking'][] = array(
+            'rank'           => $rank['rank'],
+            'team'           => $rank['team'],
+            'emblem'         => $rank['crestURI'],
+            'points'         => $rank['points'],
+            'goals'          => $rank['goals'],
+            'goalsAgainst'   => $rank['goalsAgainst'],
+            'goalDifference' => $rank['goalDifference']
+          );
+        update_option( $league_id, $team_rank );
+      }
+      $team_rank = get_option( $league_id, array() );
 
       Akaiv_Page::set_title( 'Rank' );
       Akaiv_Page::set_body_class( 'page-rank' );

@@ -38,10 +38,10 @@ if ( ! $ajax_req ) :
             </tr>
           </thead>
           <tbody>
-            <?php foreach ( $rank_arr['ranking'][0] as $rank ) : ?>
+            <?php foreach ( $team_rank['ranking'] as $rank ) : ?>
               <tr>
                 <td class="team-rank"><?php echo $rank['rank']; ?></td>
-                <?php $emblem_src = ( ! $rank['crestURI'] ) ? THEME_URL . '/images/no_image.svg' : $rank['crestURI']; ?>
+                <?php $emblem_src = ( ! $rank['emblem'] ) ? THEME_URL . '/images/no_image.svg' : $rank['emblem']; ?>
                 <td class="team-name"><img src="<?php echo $emblem_src; ?>" class="team-emblem"><?php echo $rank['team']; ?></td>
                 <td><?php echo $rank['points']; ?></td>
                 <td><?php echo $rank['goals']; ?></td>

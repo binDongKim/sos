@@ -5,6 +5,8 @@ if ( ! $ajax_req ) :
   akaiv_before_post( false );
   akaiv_page_header( 'Rank' ); ?>
 
+<div class="loading"></div>
+
 <form method="GET" action="">
   <select class="form-control league-filter-select" data-league-filter>
     <?php foreach ( array( 354, 358 ) as $id ) : ?>

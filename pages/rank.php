@@ -2,7 +2,7 @@
 if ( ! $ajax_req ) :
   get_header();
   akaiv_before_content();
-  akaiv_before_page();
+  akaiv_before_post( false );
   akaiv_page_header( 'Rank' ); ?>
 
 <form method="GET" action="">
@@ -57,7 +57,7 @@ if ( ! $ajax_req ) :
 
 <?php
 if ( ! $ajax_req ) {
-  akaiv_after_page();
+  akaiv_after_post();
   akaiv_after_content();
   get_footer();
 }

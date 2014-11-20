@@ -202,8 +202,8 @@ Akaiv_Page::setup_router( function ( $path ) {
       // $utc = "2014-05-29T04:54:30.934Z"
       // $time = strtotime($utc); //returns an integer epoch time: 1401339270
       // 브라우저에서 local time zone 으로 처리해주기 or DateTimeZone 정해주기 (Asia/Seoul)
-
       status_header(200);
+      $fixtures = getFixturesbyId(354);
       Akaiv_Page::set_title( 'Match' );
       Akaiv_Page::set_body_class( 'page-match' );
       include_once THEME_PATH . '/pages/match.php';

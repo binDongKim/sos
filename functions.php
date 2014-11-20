@@ -18,3 +18,9 @@ function getRankbyId( $id ) {
   $rank     = json_decode(wp_remote_get($rank_api)['body'], true);
   return $rank;
 }
+
+function getFixturesbyId( $id ) {
+  $fixtures_api = $GLOBALS['domain'] . '/soccerseasons/' . $id . '/fixtures?timeFrame=n23';
+  $fixtures     = wp_remote_get($fixtures_api)['body'];
+  return $fixtures;
+}

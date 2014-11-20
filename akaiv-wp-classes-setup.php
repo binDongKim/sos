@@ -197,6 +197,12 @@ Akaiv_Page::setup_router( function ( $path ) {
       die();
 
     case 'match':
+      // 00년00월은 몇일까지 있는지 계산해주는 함수 cal_days_in_month(CAL_GREGORIAN, 2, 2015);
+
+      // $utc = "2014-05-29T04:54:30.934Z"
+      // $time = strtotime($utc); //returns an integer epoch time: 1401339270
+      // 브라우저에서 local time zone 으로 처리해주기 or DateTimeZone 정해주기 (Asia/Seoul)
+
       status_header(200);
       Akaiv_Page::set_title( 'Match' );
       Akaiv_Page::set_body_class( 'page-match' );
@@ -214,7 +220,6 @@ Akaiv_Page::setup_router( function ( $path ) {
       $last_updated = $team_rank[0]['updated_at'];
       $cur_time = date(mktime());
       if ( empty( $team_rank ) || ( ( $cur_time - $last_updated ) / 3600 ) >= 1 ) {
-        var_dump('1시간 지났다' . ($cur_time - $last_updated) / 3600 );
         $rank_arr = getRankById($league_id);
 
         $team_rank = array();

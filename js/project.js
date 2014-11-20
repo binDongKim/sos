@@ -18,5 +18,9 @@
         return true;
       });
     });
+
+    if($('body').hasClass('page-match')) {
+      $('#calendar').clndr();
+    }
   });
 } )( jQuery );

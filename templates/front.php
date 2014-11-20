@@ -1,28 +1,15 @@
 <?php
-$param  = 'n14';
-$API = 'http://www.football-data.org/soccerseasons/354/fixtures';
-$url = $API . '?timeFrame=' . $param;
-$s_data = wp_remote_get($url);
-$arr_data = json_decode($s_data['body'], true);
-?>
+/* 리그별 팀 목록 wp_options에 저장하기 */
+if ( empty( get_option( 354 . '_teams', array() ) ) ) {
+  $epl_team_list = getTeamsById(354);
+  $team_list = array();
+  foreach( $epl_team_list as $epl_team )
+    $team_list[] = array(
+      'id'        => $epl_team['id'],
+      'name'      => $epl_team['name'],
+      'shortName' => $epl_team['shortName'],
+      'emblem'    => $epl_team['crestUrl']
+    );
+  update_option( 354 . '_teams', $team_list );
+} ?>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Date</th>
-      <th>MatchDay</th>
-      <th>Home</th>
-      <th>Away</th>
-    </tr>
-  </thead>
-  <tbody>
-    <?php foreach ( $arr_data as $match ) : ?>
-      <tr>
-        <td><?php echo $match['date']; ?></td>
-        <td><?php echo $match['matchday']; ?></td>
-        <td><?php echo $match['homeTeam']; ?></td>
-        <td><?php echo $match['awayTeam']; ?></td>
-      </tr>
-    <?php endforeach; ?>
-  </tbody>
-</table>

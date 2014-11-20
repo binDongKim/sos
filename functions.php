@@ -29,15 +29,15 @@ function getFixturesbyId( $id ) {
 
 /* 팀별 경기 일정 * (param : season(ex.2014), timeFrame) */
 function getFixturesbyTeamId( $id ) {
-  $team_fixtures_api = $GLOBALS['domain'] . '/teams' . $id . '/fixtures';
+  $team_fixtures_api = $GLOBALS['domain'] . '/teams/' . $id . '/fixtures';
   $team_fixtures     = wp_remote_get($team_fixtures_api)['body'];
   return $team_fixtures;
 }
 
 /* 리그별 팀 목록 */
 function getTeamsbyId( $id ) {
-  $team_list_api = $GLOBALS['domain'] . '/soccerseasons' . $id . '/teams';
-  $team_list     = wp_remote_get($team_list_api)['body'];
+  $team_list_api = $GLOBALS['domain'] . '/soccerseasons/' . $id . '/teams';
+  $team_list     = json_decode(wp_remote_get($team_list_api)['body'], true);
   return $team_list;
 }
 

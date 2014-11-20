@@ -20,7 +20,7 @@
     });
 
     if($('body').hasClass('page-match')) {
-      var fixturesObj = fixtures;
+      var eplFixturesObj = eplFixtures;
       // console.log(moment(matchDate).format('YYYY-MM-DD HH:mm'));
       // var mObj = JSON.parse(JSON.stringify(fixtures));
       // for(var fixture in fixturesObj) {
@@ -28,7 +28,7 @@
       // }
       // console.log(fixturesObj);
       $('#calendar').clndr({
-        events: fixturesObj,
+        events: eplFixturesObj,
         clickEvents: {
           click: function(target) {
             $('#match-list').html('');

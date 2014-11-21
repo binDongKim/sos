@@ -76,7 +76,6 @@ Akaiv_Content::manage_custom_column( 'news', function ( $column, $post_id ) {
 
 
 Akaiv_Page::setup_router( function ( $path ) {
-
   switch ( $path ) {
     case 'signin':
       if ( is_user_logged_in() )
@@ -204,7 +203,6 @@ Akaiv_Page::setup_router( function ( $path ) {
       // 브라우저에서 local time zone 으로 처리해주기 or DateTimeZone 정해주기 (Asia/Seoul)
       status_header(200);
       $epl_fixtures = getFixturesbyId(354);
-      $epl_team_list = json_encode(get_option('354_teams'));
       // $liga_fixtures = getFixturebyId(358);
       Akaiv_Page::set_title( 'Match' );
       Akaiv_Page::set_body_class( 'page-match' );

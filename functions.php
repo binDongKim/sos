@@ -25,10 +25,9 @@ function getFixturesbyId( $id ) {
   $fixtures_api = $GLOBALS['domain'] . '/soccerseasons/' . $id . '/fixtures';
   $fixtures     = wp_remote_get($fixtures_api);
   if ( is_wp_error( $fixtures ) ){
-    var_dump($fixtures);
     return '[]';
   }
-  return $fixtures['body'];
+  return json_decode($fixtures['body'], true);
 }
 
 /* 팀별 경기 일정 * (param : season(ex.2014), timeFrame) */
@@ -51,3 +50,73 @@ function getLeagueList() {
   $league_list     = wp_remote_get($league_list_api)['body'];
   return $league_list;
 }
+
+
+/////////////////////////////////////////////
+          /* wp_option에 저장하기 */
+/////////////////////////////////////////////
+
+/* 경기일정 저장 */
+function setFixtures( $id ) {
+  $epl_fixtures = getFixturesbyId( $id );
+
+  $epl_fixture_list = array();
+  $epl_fixture_list['updated_at'] = date(mktime());
+
+  foreach( $epl_fixtures as $epl_fixture )
+    $epl_fixture_list['fixtures'][] = array(
+      'id'            => $epl_fixture['id'],
+      'date'          => $epl_fixture['date'],
+      'matchday'      => $epl_fixture['matchday'],
+      'homeTeam'      => $epl_fixture['homeTeam'],
+      'awayTeam'      => $epl_fixture['awayTeam'],
+      'goalsHomeTeam' => $epl_fixture['goalsHomeTeam'],
+      'goalsAwayTeam' => $epl_fixture['goalsAwayTeam']
+    );
+  update_option( $id . '_fixtures', $epl_fixture_list );
+}
+
+/* 팀 목록 저장 */
+function setTeams( $id ) {
+  $epl_team_list = getTeamsById( $id );
+  $team_list = array();
+  foreach( $epl_team_list as $epl_team )
+    $team_list[] = array(
+      'id'        => $epl_team['id'],
+      'name'      => $epl_team['name'],
+      'shortName' => $epl_team['shortName'],
+      'emblem'    => $epl_team['crestUrl']
+    );
+  update_option( $id . '_teams', $team_list );
+}
+
+/* 리그 별 랭킹 저장 */
+function setRank( $id ) {
+  $rank_arr = getRankById($id);
+  $team_rank = array();
+  $team_rank['updated_at']  = date(mktime());
+  $team_rank['league_name'] = $rank_arr['league'];
+  foreach( $rank_arr['ranking'] as $rank )
+    $team_rank['ranking'][] = array(
+      'rank'           => $rank['rank'],
+      'team'           => $rank['team'],
+      'emblem'         => $rank['crestURI'],
+      'points'         => $rank['points'],
+      'goals'          => $rank['goals'],
+      'goalsAgainst'   => $rank['goalsAgainst'],
+      'goalDifference' => $rank['goalDifference']
+    );
+  update_option( $id . '_rank', $team_rank );
+}
+
+
+
+
+
+
+
+
+
+
+
+

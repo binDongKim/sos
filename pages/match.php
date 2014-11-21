@@ -4,9 +4,6 @@ akaiv_before_content();
 akaiv_before_post( false );
 akaiv_page_header( 'Match' ); ?>
 
-<script>
-  var eplFixtures = JSON.parse('<?php echo $epl_fixtures; ?>');
-</script>
 <div id="calendar" class="calendar clearfix"></div>
 <div id="match-oftheday" class="match-oftheday">
   <table class="table-match-oftheday">

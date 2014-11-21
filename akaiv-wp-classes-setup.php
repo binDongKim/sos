@@ -196,14 +196,7 @@ Akaiv_Page::setup_router( function ( $path ) {
       die();
 
     case 'match':
-      // 00년00월은 몇일까지 있는지 계산해주는 함수 cal_days_in_month(CAL_GREGORIAN, 2, 2015);
-
-      // $utc = "2014-05-29T04:54:30.934Z"
-      // $time = strtotime($utc); //returns an integer epoch time: 1401339270
-      // 브라우저에서 local time zone 으로 처리해주기 or DateTimeZone 정해주기 (Asia/Seoul)
       status_header(200);
-      $epl_fixtures = getFixturesbyId(354);
-      // $liga_fixtures = getFixturebyId(358);
       Akaiv_Page::set_title( 'Match' );
       Akaiv_Page::set_body_class( 'page-match' );
       include_once THEME_PATH . '/pages/match.php';
@@ -217,27 +210,8 @@ Akaiv_Page::setup_router( function ( $path ) {
 
       $team_rank = get_option( $league_id . '_rank', array() );
 
-      $last_updated = $team_rank[0]['updated_at'];
-      $cur_time = date(mktime());
-      if ( empty( $team_rank ) || ( ( $cur_time - $last_updated ) / 3600 ) >= 1 ) {
-        $rank_arr = getRankById($league_id);
-
-        $team_rank = array();
-        $team_rank[] = array(
-          'updated_at'  => $cur_time,
-          'league_name' => $rank_arr['league']
-        );
-        foreach( $rank_arr['ranking'] as $rank )
-          $team_rank['ranking'][] = array(
-            'rank'           => $rank['rank'],
-            'team'           => $rank['team'],
-            'emblem'         => $rank['crestURI'],
-            'points'         => $rank['points'],
-            'goals'          => $rank['goals'],
-            'goalsAgainst'   => $rank['goalsAgainst'],
-            'goalDifference' => $rank['goalDifference']
-          );
-        update_option( $league_id . '_rank', $team_rank );
+      if ( empty( $team_rank ) || ( ( date(mktime()) - $team_rank['updated_at'] ) / 3600 ) >= 1 ) {
+        setRank( $league_id );
       }
       $team_rank = get_option( $league_id . '_rank', array() );
       Akaiv_Page::set_title( 'Rank' );

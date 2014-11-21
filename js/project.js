@@ -24,8 +24,9 @@
     });
 
     if($('body').hasClass('page-match')) {
+      console.log(eplFixtures);
       $('#calendar').clndr({
-        events: eplFixtures,
+        events: eplFixtures.fixtures,
         clickEvents: {
           click: function(target) {
             var $matchTbody = $('#match-oftheday tbody');

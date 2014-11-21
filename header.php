@@ -11,6 +11,7 @@
   <?php wp_head(); ?>
   <script>
     var eplTeamList = JSON.parse('<?php echo json_encode(get_option('354_teams')); ?>');
+    var eplFixtures = JSON.parse('<?php echo json_encode(get_option('354_fixtures')); ?>');
     var themeDir    = '<?php echo get_template_directory_uri(); ?>';
   </script>
   <!--[if lt IE 9]>

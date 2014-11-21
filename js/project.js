@@ -23,29 +23,23 @@
       });
     });
 
+    var $matchTbody = $('#match-oftheday tbody');
     if($('body').hasClass('page-match')) {
-      console.log(eplFixtures);
       $('#calendar').clndr({
         events: eplFixtures.fixtures,
         clickEvents: {
           click: function(target) {
-            var $matchTbody = $('#match-oftheday tbody');
             var calHeight = $('#calendar').height();
 
             $matchTbody.html('');
 
             var matchTableBody = '';
             target.events.forEach(function(match) {
-              matchTableBody +=
-              '<tr>' +
-                '<td class="match-date">' + moment(moment.utc(match.date).toDate()).format('HH:mm') +     '</td>' +
-                '<td class="team-emblem-name"><img src='    + teamEmblemObj[match.homeTeam] + ' class="team-emblem">' + match.homeTeam + '</td>' +
-                '<td class="home-goals">' + ( match.goalsHomeTeam === -1 ? '&nbsp;' : match.goalsHomeTeam ) + '</td>' +
-                '<td class="match-versus">vs</td>' +
-                '<td class="away-goals">' + ( match.goalsAwayTeam === -1 ? '&nbsp;' : match.goalsAwayTeam ) + '</td>' +
-                '<td class="team-emblem-name"><img src='    + teamEmblemObj[match.awayTeam] + ' class="team-emblem">' + match.awayTeam + '</td>' +
-              '</tr>'
+              matchTableBody += getTableDomByJson(match);
             });
+            if(matchTableBody===''){
+              matchTableBody = '<tr><td colspan="6">No Match</td></tr>';
+            }
             $matchTbody.html(matchTableBody);
             $('#match-oftheday').css('max-height', calHeight-39);
             $('#match-oftheday').css('display','block');
@@ -58,6 +52,31 @@
           }
         }
       });
+    } else if($('body').hasClass('home')) {
+      var matchTableBody = '';
+      eplFixtures.fixtures.forEach(function(match) {
+        if( moment().format('YYYYMMDD') === moment(moment.utc(match.date).toDate()).format('YYYYMMDD') ) {
+          matchTableBody += getTableDomByJson(match);
+        }
+      });
+      if(matchTableBody===''){
+        matchTableBody = '<tr><td colspan="6">No Match</td></tr>';
+      }
+      $matchTbody.html(matchTableBody);
+      $('#match-oftheday').css('display','block');
+    }
+    function getTableDomByJson(jsObj) {
+      var domList = '';
+      domList +=
+      '<tr>' +
+        '<td class="match-date">' + moment(moment.utc(jsObj.date).toDate()).format('HH:mm') + '</td>' +
+        '<td class="team-emblem-name"><img src=' + teamEmblemObj[jsObj.homeTeam] + ' class="team-emblem">' + jsObj.homeTeam + '</td>' +
+        '<td class="home-goals">' + ( jsObj.goalsHomeTeam === -1 ? '&nbsp;' : jsObj.goalsHomeTeam ) + '</td>' +
+        '<td class="match-versus">vs</td>' +
+        '<td class="away-goals">' + ( jsObj.goalsAwayTeam === -1 ? '&nbsp;' : jsObj.goalsAwayTeam ) + '</td>' +
+        '<td class="team-emblem-name"><img src=' + teamEmblemObj[jsObj.awayTeam] + ' class="team-emblem">' + jsObj.awayTeam + '</td>' +
+      '</tr>'
+      return domList;
     }
   });
 } )( jQuery );

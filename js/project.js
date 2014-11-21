@@ -7,6 +7,10 @@
 
   $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
+    var teamEmblemObj = {};
+    eplTeamList.forEach(function(eplTeam) {
+      teamEmblemObj[eplTeam.name] = eplTeam.emblem ? eplTeam.emblem : themeDir + '/images/no_image.svg';
+    });
 
     $('[data-league-filter]').change(function () {
       var leagueId = $(this).val();
@@ -20,32 +24,36 @@
     });
 
     if($('body').hasClass('page-match')) {
-      var eplFixturesObj = eplFixtures;
-      // console.log(moment(matchDate).format('YYYY-MM-DD HH:mm'));
-      // var mObj = JSON.parse(JSON.stringify(fixtures));
-      // for(var fixture in fixturesObj) {
-      //   fixture.date = moment.utc(fixture.date).toDate();
-      // }
-      // console.log(fixturesObj);
       $('#calendar').clndr({
-        events: eplFixturesObj,
+        events: eplFixtures,
         clickEvents: {
           click: function(target) {
-            $('#match-list').html('');
-            var matchDom = '';
+            var $matchTbody = $('#match-oftheday tbody');
+            var calHeight = $('#calendar').height();
+
+            $matchTbody.html('');
+
+            var matchTableBody = '';
             target.events.forEach(function(match) {
-              console.log('homeTime: ' + match.homeTeam + ', awayTeam: ' + match.awayTeam);
-              matchDom += '<article><span class="team-name-wrapper">' + match.homeTeam + '</span>' +
-                               ' vs <span class="team-name-wrapper">' + match.awayTeam + '</span></article>';
-              $('#match-list').html(matchDom);
-              $('#match-ontheday').css('display','block');
+              matchTableBody +=
+              '<tr>' +
+                '<td class="match-date">' + moment(moment.utc(match.date).toDate()).format('HH:mm') +     '</td>' +
+                '<td class="team-emblem-name"><img src='    + teamEmblemObj[match.homeTeam] + ' class="team-emblem">' + match.homeTeam + '</td>' +
+                '<td class="home-goals">' + ( match.goalsHomeTeam === -1 ? '&nbsp;' : match.goalsHomeTeam ) + '</td>' +
+                '<td class="match-versus">vs</td>' +
+                '<td class="away-goals">' + ( match.goalsAwayTeam === -1 ? '&nbsp;' : match.goalsAwayTeam ) + '</td>' +
+                '<td class="team-emblem-name"><img src='    + teamEmblemObj[match.awayTeam] + ' class="team-emblem">' + match.awayTeam + '</td>' +
+              '</tr>'
             });
+            $matchTbody.html(matchTableBody);
+            $('#match-oftheday').css('max-height', calHeight-39);
+            $('#match-oftheday').css('display','block');
           },
           previousMonth: function(month) {
-            $('#match-ontheday').css('display','none');
+            $('#match-oftheday').css('display','none');
           },
           nextMonth: function(month) {
-            $('#match-ontheday').css('display','none');
+            $('#match-oftheday').css('display','none');
           }
         }
       });

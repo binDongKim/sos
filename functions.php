@@ -23,8 +23,12 @@ function getRankbyId( $id ) {
 /* 리그별 경기 일정 (param(optional) : matchday, timeFrame(p|n)) */
 function getFixturesbyId( $id ) {
   $fixtures_api = $GLOBALS['domain'] . '/soccerseasons/' . $id . '/fixtures';
-  $fixtures     = wp_remote_get($fixtures_api)['body'];
-  return $fixtures;
+  $fixtures     = wp_remote_get($fixtures_api);
+  if ( is_wp_error( $fixtures ) ){
+    var_dump($fixtures);
+    return '[]';
+  }
+  return $fixtures['body'];
 }
 
 /* 팀별 경기 일정 * (param : season(ex.2014), timeFrame) */

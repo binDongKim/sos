@@ -6,15 +6,18 @@ akaiv_page_header( 'Match' ); ?>
 
 <script>
   var eplFixtures = JSON.parse('<?php echo $epl_fixtures; ?>');
-  var eplTeamList = JSON.parse('<?php echo $epl_team_list; ?>');
 </script>
 <div id="calendar" class="calendar clearfix"></div>
-<div id="match-ontheday" class="match-ontheday">
-  <div class="match-header-wrapper">
-    <h2>MATCH OF THE DAY</h2>
-  </div>
-  <div id="match-list" class="match-body-wrapper">
-  </div>
+<div id="match-oftheday" class="match-oftheday">
+  <table class="table-match-oftheday">
+    <thead>
+      <tr>
+        <td colspan="6">MATCH OF THE DAY</td>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
 </div>
 
 <?php

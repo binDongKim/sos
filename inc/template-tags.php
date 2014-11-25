@@ -16,16 +16,8 @@ function akaiv_page_header($heading = null) { ?>
     <h1 class="page-title"><?php
       if ( $heading ) :
         echo $heading;
-      elseif ( is_archive() ) :
-        $term_description = term_description();
-        if ( empty( $term_description ) ) :
-          akaiv_page_title();
-        else :
-          akaiv_page_title();
-          echo '<small class="taxonomy-description">'.$term_description.'</small>';
-        endif;
       else :
-        akaiv_page_title();
+        echo ucfirst(get_post_type());
       endif; ?>
     </h1>
   </header><?php

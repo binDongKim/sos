@@ -23,7 +23,7 @@
       });
     });
 
-    var $matchTbody = $('#match-oftheday tbody');
+    var $matchDiv = $('#match-oftheday');
     if($('body').hasClass('page-match')) {
       $('#calendar').clndr({
         events: eplFixtures.fixtures,
@@ -31,7 +31,8 @@
           click: function(target) {
             var calHeight = $('#calendar').height();
 
-            $matchTbody.html('');
+            $matchDiv.find('thead').find('td').html('');
+            $matchDiv.find('tbody').html('');
 
             var matchTableBody = '';
             target.events.forEach(function(match) {
@@ -40,7 +41,9 @@
             if(matchTableBody===''){
               matchTableBody = '<tr><td colspan="6">No Match</td></tr>';
             }
-            $matchTbody.html(matchTableBody);
+            $matchDiv.find('thead').find('td').html('Matches on ' + '<span class="match-date-wrapper">' + target.date._i + '</span>');
+            $matchDiv.find('tbody').html(matchTableBody);
+
             $('#match-oftheday').css('max-height', calHeight-39);
             $('#match-oftheday').css('display','block');
           },
@@ -62,7 +65,8 @@
       if(matchTableBody===''){
         matchTableBody = '<tr><td colspan="6">No Match</td></tr>';
       }
-      $matchTbody.html(matchTableBody);
+      $matchDiv.find('thead').find('td').html('<span class="match-date-wrapper">Today</span>' + '\'s Matches');
+      $matchDiv.find('tbody').html(matchTableBody);
       $('#match-oftheday').css('display','block');
     }
     function getTableDomByJson(jsObj) {

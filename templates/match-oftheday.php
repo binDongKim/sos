@@ -2,7 +2,7 @@
   <table class="table-match-oftheday">
     <thead>
       <tr>
-        <td colspan="6">MATCH OF THE DAY</td>
+        <td colspan="6"></td>
       </tr>
     </thead>
     <tbody>

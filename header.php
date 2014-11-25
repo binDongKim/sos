@@ -8,20 +8,20 @@
   <link rel="profile" href="http://gmpg.org/xfn/11">
   <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
   <link rel="alternate" type="application/rss+xml" title="<?php echo get_bloginfo( 'name' ); ?> &mdash; 피드" href="<?php echo esc_url( get_feed_link() ); ?>">
-  <?php wp_head(); ?>
   <script>
     var eplTeamList = JSON.parse('<?php echo json_encode(get_option('354_teams')); ?>');
     var eplFixtures = JSON.parse('<?php echo json_encode(get_option('354_fixtures')); ?>');
     var themeDir    = '<?php echo get_template_directory_uri(); ?>';
   </script>
   <!--[if lt IE 9]>
-    <script src="<?php echo get_template_directory_uri(); ?>/assets/html5shiv/dist/html5shiv.min.js"></script>
-    <script src="<?php echo get_template_directory_uri(); ?>/assets/respond/dest/respond.min.js"></script>
+  <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/html5shiv/dist/html5shiv.min.js"></script>
+  <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/respond/dest/respond.min.js"></script>
   <![endif]-->
+  <?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
-<a class="sr-only skip-link" href="#content"><?php echo 'Skip to content'; ?></a>
+<a class="skip-link sr-only" href="#content"><?php echo 'Skip to content'; ?></a>
 
 <div class="container">
   <?php
@@ -70,7 +70,7 @@
       </div>
     </div><!-- .container -->
   </nav>
-</header><!-- #masthead -->
+</header><!-- .site-header -->
 
-<div id="main" class="site-main">
+<main id="main" class="site-main" role="main">
   <?php if ( ! is_home() && ! is_front_page() ) echo '<div class="container">'; ?>

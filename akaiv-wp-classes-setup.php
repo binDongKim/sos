@@ -2,6 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) die();
 
 if ( ! defined( 'AKAIV_WP_CLASSES_PATH' ) ) define( 'AKAIV_WP_CLASSES_PATH', THEME_PATH . '/akaiv-wp-classes' );
+if ( ! defined( 'ADMIN_MENUS_PATH' ) )      define( 'ADMIN_MENUS_PATH',      THEME_PATH . '/admin-menus' );
 
 require_once AKAIV_WP_CLASSES_PATH . '/interface-akaiv-loggable.php';
 require_once AKAIV_WP_CLASSES_PATH . '/interface-akaiv-meta-handleable.php';
@@ -73,6 +74,15 @@ Akaiv_Content::manage_custom_column( 'news', function ( $column, $post_id ) {
   }
 
 } );
+
+Akaiv_Admin_Menu::add_menu( array(
+  'page_title' => 'Team Management',
+  'menu_title' => 'Team Management',
+  'menu_slug'  => 'teams',
+  'icon_url'   => 'dashicons-groups',
+  'template'   => ADMIN_MENUS_PATH . '/team-management.php',
+  'position'   => 40
+), 'manage_options' );
 
 
 Akaiv_Page::setup_router( function ( $path ) {

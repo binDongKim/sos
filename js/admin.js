@@ -6,26 +6,28 @@
     // $(this) = $('['data-action]')
     switch ($(this).data('action')) {
       case 'add-team':
-        var $div     = $(this).parent();
-        var $ul      = $div.find('ul');
-        var teamName = $div.find('select option:selected').text();
-        var teamId   = $div.find('select option:selected').val();
+        var $div         = $(this).parent();
+        var $teamListDiv = $div.find('div');
+        var teamName     = $div.find('select option:selected').text();
+        var teamId       = $div.find('select option:selected').val();
 
         var flag = false;
-        $($ul.find('li')).each(function () {
-          if ( teamId == $(this).data('teamId') ) {
+        $($teamListDiv.find('input[type=hidden]')).each(function () {
+          if ( teamId == $(this).val() ) {
             flag = true;
             return false;
           }
         });
         if( ! flag ) {
-          var $li = '<li class="team-group-item" data-team-id="' + teamId + '">' + teamName +
-                    '<button type="button" data-action="remove-team" class="btn btn-default btn-xs pull-right"><i class="fa fa-minus"></i></button></li>';
-          $ul.append($li);
+          var $nameInput = '<input type="text" name="my-team[name][]" value="' + teamName + '" class="form-control input-team-name" readonly="readonly">';
+          var $removeBtn = '<button type="button" data-action="remove-team" class="remove-team btn btn-default btn-xs pull-right"><i class="fa fa-minus"></i></button>';
+          var $idInput   = '<input type="hidden" name="my-team[id][]" value="' + teamId   + '" class="form-control">';
+
+          $teamListDiv.append('<article>' + $nameInput + $removeBtn + $idInput + '<article>');
         }
         break;
       case 'remove-team':
-        $(ev.target).parents('li').remove();
+        $(ev.target).parents('article').remove();
         break;
     }
   });

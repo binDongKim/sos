@@ -1,11 +1,22 @@
 <?php if ( ! defined( 'ABSPATH' ) ) die();
-$leagues = array();
-foreach ( array( 354, 358, 351, 357 ) as $league_id ) {
-  $leagues[$league_id] = getTeamsbyId( $league_id );
-} ;?>
+
+if( empty( get_option( 'league_teams', array() ) ) ) {
+  foreach ( array( 354, 358, 351, 357 ) as $league_id ) {
+    setTeams( $league_id );
+  }
+}
+$leagues = get_option( 'league_teams', array() );
+
+if( 'POST' === $_SERVER['REQEUST_METHOD'] ) {
+  $my_teams = array();
+  update_option( 'my_teams', $my_teams );
+}
+$my_teams = get_option( 'my_teams', array() );
+;?>
+
 
 <h1>Team Management</h1>
-<form method="POST">
+<form method="POST" action="<?php admin_url( 'admin.php?page=teams' ); ?>">
   <div class="team-reg-button-wrapper"><button type="submit" class="btn btn-primary">저장</button></div>
   <hr>
   <?php
@@ -30,8 +41,8 @@ foreach ( array( 354, 358, 351, 357 ) as $league_id ) {
       ?>
       </h2>
 
-      <ul class="team-group" data-target="<?php echo $index; ?>-team-list">
-      </ul>
+      <div class="team-group" data-target="<?php echo $index; ?>-team-list">
+      </div>
 
       <select data-name="teams" class="form-control team-selection">
         <?php foreach ( $league as $team ) : ?>

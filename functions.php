@@ -79,16 +79,16 @@ function setFixtures( $id ) {
 
 /* 팀 목록 저장 */
 function setTeams( $id ) {
-  $epl_team_list = getTeamsById( $id );
-  $team_list = array();
-  foreach( $epl_team_list as $epl_team )
-    $team_list[] = array(
-      'id'        => $epl_team['id'],
-      'name'      => $epl_team['name'],
-      'shortName' => $epl_team['shortName'],
-      'emblem'    => $epl_team['crestUrl']
+  $league_team_list = getTeamsById( $id );
+  $team_list = get_option( 'league_teams', array() );
+  foreach( $league_team_list as $league_team )
+    $team_list[$id][] = array(
+      'id'        => $league_team['id'],
+      'name'      => $league_team['name'],
+      'shortName' => $league_team['shortName'],
+      'emblem'    => $league_team['crestUrl']
     );
-  update_option( $id . '_teams', $team_list );
+  update_option( 'league_teams', $team_list );
 }
 
 /* 리그 별 랭킹 저장 */

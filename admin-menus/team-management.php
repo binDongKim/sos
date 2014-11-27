@@ -7,16 +7,23 @@ if( empty( get_option( 'league_teams', array() ) ) ) {
 }
 $leagues = get_option( 'league_teams', array() );
 
-if( 'POST' === $_SERVER['REQEUST_METHOD'] ) {
+if( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
   $my_teams = array();
+  if ( ! empty( $_POST['my-teams'] ) )
+    foreach ( $_POST['my-teams']['league-id'] as $index => $league_id )
+      $my_teams[$league_id][] = array(
+        'name'      => $_POST['my-teams']['name'][$index],
+        'team-id'   => $_POST['my-teams']['team-id'][$index]
+      );
   update_option( 'my_teams', $my_teams );
 }
+
 $my_teams = get_option( 'my_teams', array() );
-;?>
+?>
 
 
 <h1>Team Management</h1>
-<form method="POST" action="<?php admin_url( 'admin.php?page=teams' ); ?>">
+<form method="POST" action="<?php echo admin_url( 'admin.php?page=teams' ); ?>">
   <div class="team-reg-button-wrapper"><button type="submit" class="btn btn-primary">저장</button></div>
   <hr>
   <?php
@@ -42,6 +49,14 @@ $my_teams = get_option( 'my_teams', array() );
       </h2>
 
       <div class="team-group" data-target="<?php echo $index; ?>-team-list">
+        <?php foreach ( $my_teams[$index] as $my_team ) : ?>
+          <article>
+            <input type="hidden" name="my-teams[league-id][]" value="<?php echo $index; ?>">
+            <input type="text" name="my-teams[name][]" value="<?php echo $my_team['name']; ?>" class="form-control input-team-name" readonly="readonly">
+            <input type="hidden" name="my-teams[team-id][]" value="<?php echo $my_team['team-id']; ?>">
+            <button type="button" data-action="remove-team" class="remove-team btn btn-default btn-xs pull-right"><i class="fa fa-minus"></i></button>
+          </article>
+        <?php endforeach; ?>
       </div>
 
       <select data-name="teams" class="form-control team-selection">

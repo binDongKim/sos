@@ -19,11 +19,12 @@
           }
         });
         if( ! flag ) {
-          var $nameInput = '<input type="text" name="my-team[name][]" value="' + teamName + '" class="form-control input-team-name" readonly="readonly">';
+          var $leagueId  = '<input type="hidden" name="my-teams[league-id][]" value="' + $div.data('leagueId') + '">';
+          var $nameInput = '<input type="text" name="my-teams[name][]" value="' + teamName + '" class="form-control input-team-name" readonly="readonly">';
+          var $idInput   = '<input type="hidden" name="my-teams[team-id][]" value="' + teamId   + '">';
           var $removeBtn = '<button type="button" data-action="remove-team" class="remove-team btn btn-default btn-xs pull-right"><i class="fa fa-minus"></i></button>';
-          var $idInput   = '<input type="hidden" name="my-team[id][]" value="' + teamId   + '" class="form-control">';
 
-          $teamListDiv.append('<article>' + $nameInput + $removeBtn + $idInput + '<article>');
+          $teamListDiv.append('<article>' + $leagueId + $nameInput + $idInput + $removeBtn + '</article>');
         }
         break;
       case 'remove-team':

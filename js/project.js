@@ -24,7 +24,9 @@
         return true;
       });
     });
-    console.log(teamEmblemObj);
+    myTeamsFixtures.sort(function (fix1, fix2) {
+      return new Date(fix1.date) - new Date(fix2.date);
+    });
     var $matchDiv = $('#match-oftheday');
     if($('body').hasClass('page-match')) {
       $('#calendar').clndr({

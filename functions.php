@@ -34,7 +34,7 @@ function getFixturesbyId( $id ) {
 /* 팀별 경기 일정 * (param : season(ex.2014), timeFrame) */
 function getFixturesbyTeamId( $id ) {
   $team_fixtures_api = $GLOBALS['domain'] . '/teams/' . $id . '/fixtures';
-  $team_fixtures     = wp_remote_get($team_fixtures_api)['body'];
+  $team_fixtures     = json_decode(wp_remote_get($team_fixtures_api)['body'], true);
   return $team_fixtures;
 }
 

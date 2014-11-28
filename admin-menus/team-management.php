@@ -16,8 +16,15 @@ if( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
         'team-id'   => $_POST['my-teams']['team-id'][$index]
       );
   update_option( 'my_teams', $my_teams );
-}
 
+  $my_teams_fixtures = array();
+  foreach ( $my_teams as $league_id ) {
+    foreach ( $league_id as $team ) {
+      $my_teams_fixtures = array_merge( $my_teams_fixtures, getFixturesbyTeamId( $team['team-id'] ) );
+    }
+  }
+  update_option( 'my_teams_fixtures', $my_teams_fixtures );
+}
 $my_teams = get_option( 'my_teams', array() );
 ?>
 

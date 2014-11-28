@@ -8,10 +8,12 @@
   $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
     var teamEmblemObj = {};
-    eplTeamList.forEach(function(eplTeam) {
-      teamEmblemObj[eplTeam.name] = eplTeam.emblem ? eplTeam.emblem : themeDir + '/images/no_image.svg';
-    });
+    Object.keys(teamList).forEach(function (leagueId) {
+      teamList[leagueId].forEach(function (team) {
+        teamEmblemObj[team.name] = team.emblem ? (team.emblem.indexOf('http') !== -1 ? team.emblem : 'http://'.concat(team.emblem)) : themeDir + '/images/no_image.svg';
 
+      });
+    });
     $('[data-league-filter]').change(function () {
       var leagueId = $(this).val();
       var url = '/sos/rank?league_id=' + leagueId + '&ajax_req=true';
@@ -22,11 +24,11 @@
         return true;
       });
     });
-
+    console.log(teamEmblemObj);
     var $matchDiv = $('#match-oftheday');
     if($('body').hasClass('page-match')) {
       $('#calendar').clndr({
-        events: eplFixtures.fixtures,
+        events: myTeamsFixtures,
         clickEvents: {
           click: function(target) {
             var calHeight = $('#calendar').height();
@@ -57,7 +59,7 @@
       });
     } else if($('body').hasClass('home')) {
       var matchTableBody = '';
-      eplFixtures.fixtures.forEach(function(match) {
+      myTeamsFixtures.forEach(function(match) {
         if( moment().format('YYYYMMDD') === moment(moment.utc(match.date).toDate()).format('YYYYMMDD') ) {
           matchTableBody += getTableDomByJson(match);
         }

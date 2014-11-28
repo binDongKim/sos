@@ -20,7 +20,7 @@ if( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
   $my_teams_fixtures = array();
   foreach ( $my_teams as $league_id ) {
     foreach ( $league_id as $team ) {
-      $my_teams_fixtures = array_merge( $my_teams_fixtures, getFixturesbyTeamId( $team['team-id'] ) );
+      $my_teams_fixtures = array_values( array_unique( array_merge( $my_teams_fixtures, getFixturesbyTeamId( $team['team-id'] ) ), SORT_REGULAR ) );
     }
   }
   update_option( 'my_teams_fixtures', $my_teams_fixtures );

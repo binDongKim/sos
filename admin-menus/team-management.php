@@ -60,7 +60,7 @@ $my_teams = get_option( 'my_teams', array() );
               <input type="hidden" name="my-teams[league-id][]" value="<?php echo $index; ?>">
               <input type="text" name="my-teams[name][]" value="<?php echo $my_team['name']; ?>" class="form-control input-team-name" readonly="readonly">
               <input type="hidden" name="my-teams[team-id][]" value="<?php echo $my_team['team-id']; ?>">
-              <button type="button" data-action="remove-team" class="remove-team button button-default button-xs pull-right"><i class="fa fa-minus"></i></button>
+              <button type="button" data-action="remove-team" class="remove-team button button-default button-xs pull-right">Del</button>
             </article>
           <?php endforeach; ?>
         </div>
@@ -70,7 +70,7 @@ $my_teams = get_option( 'my_teams', array() );
             <option data-team-name="<?php echo $team['name']; ?>" value="<?php echo $team['id']; ?>"><?php echo $team['name']; ?></option>
           <?php endforeach; ?>
         </select>
-        <button type="button" data-action="add-team" class="button button-primary button-xs"><i class="fa fa-plus"></i></button>
+        <button type="button" data-action="add-team" class="button button-primary button-xs">Add</button>
       </div>
     <?php endforeach; ?>
   </form>

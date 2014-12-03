@@ -1,13 +1,13 @@
-# SEED 테마
+# SOS( Story Of Soccer )
 ## 개요
-* 설명: [워드프레스](https://wordpress.org) 테마를 만들때 기초가 되는 파일들입니다.
-* 작성자: [아카이브](http://akaiv.com)의 [심철환](http://simcheolhwan.com), [신희성](http://lumiere0b.net/)
+* 설명: 축구를 좋아해서 만들게 된 축구블로그입니다.
+* 작성자: 김동빈 ~~binDongKim@gmail.com~~
 
 ## 테마 설치
 * 워드프레스 테마 디렉토리에 이 리파지토리를 클론합니다.
 ```bash
 cd wp-content/themes
-git clone https://github.com/akaiv/wordpress-seed.git
+git clone https://github.com/binDongKim/sos.git
 ```
 * 서브모듈을 초기화하고 업데이트합니다.
 ```bash

@@ -77,6 +77,18 @@ function set_fixtures_by_league_id( $id ) {
   update_option( $id . '_fixtures', $league_fixture_list );
 }
 
+/* 팀별 경기일정 저장
+   내 팀관리목록에 있는 팀 일정들만 저장함 */
+function set_fixtures_by_myteams() {
+  $my_teams_fixtures = array();
+  foreach ( get_option( 'my_teams' ) as $league_id ) {
+    foreach ( $league_id as $team ) {
+      $my_teams_fixtures = array_values( array_unique( array_merge( $my_teams_fixtures, get_fixtures_by_team_id( $team['team-id'] ) ), SORT_REGULAR ) );
+    }
+  }
+  update_option( 'my_teams_fixtures', $my_teams_fixtures );
+}
+
 /* 리그별 팀 목록 저장 */
 function set_teams_by_league_id( $id ) {
   $league_team_list = get_teams_by_league_id( $id );
@@ -109,9 +121,3 @@ function set_rank_by_league_id( $id ) {
     );
   update_option( $id . '_rank', $team_rank );
 }
-
-///////////////////////////////////////
-/* API 업데이트되면 내 DB도 업데이트 해주기 */
-///////////////////////////////////////
-
-

@@ -16,15 +16,7 @@ if( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
         'team-id'   => $_POST['my-teams']['team-id'][$index]
       );
   update_option( 'my_teams', $my_teams );
-
-  /* 요걸 함수로 빼야하나 */
-  $my_teams_fixtures = array();
-  foreach ( $my_teams as $league_id ) {
-    foreach ( $league_id as $team ) {
-      $my_teams_fixtures = array_values( array_unique( array_merge( $my_teams_fixtures, get_fixtures_by_team_id( $team['team-id'] ) ), SORT_REGULAR ) );
-    }
-  }
-  update_option( 'my_teams_fixtures', $my_teams_fixtures );
+  set_fixtures_by_myteams();
 }
 
 $my_teams = get_option( 'my_teams', array() );

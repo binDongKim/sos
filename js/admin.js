@@ -22,7 +22,7 @@
           var $leagueId  = '<input type="hidden" name="my-teams[league-id][]" value="' + $div.data('leagueId') + '">';
           var $nameInput = '<input type="text" name="my-teams[name][]" value="' + teamName + '" class="form-control input-team-name" readonly="readonly">';
           var $idInput   = '<input type="hidden" name="my-teams[team-id][]" value="' + teamId   + '">';
-          var $removeBtn = '<button type="button" data-action="remove-team" class="remove-team btn btn-default btn-xs pull-right"><i class="fa fa-minus"></i></button>';
+          var $removeBtn = '<button type="button" data-action="remove-team" class="js-button remove-team button button-default button-xs pull-right">Del</button>';
 
           $teamListDiv.append('<article>' + $leagueId + $nameInput + $idInput + $removeBtn + '</article>');
         }

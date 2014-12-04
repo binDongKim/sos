@@ -221,7 +221,7 @@ Akaiv_Page::setup_router( function ( $path ) {
       $team_rank = get_option( $league_id . '_rank', array() );
 
       if ( empty( $team_rank ) || ( ( date(mktime()) - $team_rank['updated_at'] ) / 3600 ) >= 1 ) {
-        setRank( $league_id );
+        set_rank_by_league_id( $league_id );
       }
       $team_rank = get_option( $league_id . '_rank', array() );
       Akaiv_Page::set_title( 'Rank' );

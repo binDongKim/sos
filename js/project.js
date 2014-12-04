@@ -24,6 +24,11 @@
         return true;
       });
     });
+
+    myTeamsFixtures = _.values(myTeamsFixtures).filter(
+      function (value) {
+        return ( typeof value !== 'string' );
+      }); // 'updated_at'값 제거
     myTeamsFixtures.sort(function (fix1, fix2) {
       return new Date(fix1.date) - new Date(fix2.date);
     });

@@ -1,25 +1,18 @@
 <?php if ( ! defined( 'ABSPATH' ) ) die();
 
-if( empty( get_option( 'league_teams', array() ) ) ) {
+if( empty( get_league_teams() ) ) {
   foreach ( array( 354, 358, 351, 357 ) as $league_id ) {
     set_teams_by_league_id( $league_id );
   }
 }
-$leagues = get_option( 'league_teams', array() );
+$leagues = get_league_teams();
 
 if( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
-  $my_teams = array();
-  if ( ! empty( $_POST['my-teams'] ) )
-    foreach ( $_POST['my-teams']['league-id'] as $index => $league_id )
-      $my_teams[$league_id][] = array(
-        'name'      => $_POST['my-teams']['name'][$index],
-        'team-id'   => $_POST['my-teams']['team-id'][$index]
-      );
-  update_option( 'my_teams', $my_teams );
+  set_myteams();
   set_fixtures_by_myteams();
 }
 
-$my_teams = get_option( 'my_teams', array() );
+$my_teams = get_myteams();
 ?>
 
 <h2>Team Management</h2>

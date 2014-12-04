@@ -218,12 +218,7 @@ Akaiv_Page::setup_router( function ( $path ) {
       $league_id = $_GET['league_id'] ? $_GET['league_id'] : 354;
       $ajax_req = empty( $_GET['ajax_req'] ) ? false : true;
 
-      $team_rank = get_option( $league_id . '_rank', array() );
-
-      if ( empty( $team_rank ) || ( ( date(mktime()) - $team_rank['updated_at'] ) / 3600 ) >= 1 ) {
-        set_rank_by_league_id( $league_id );
-      }
-      $team_rank = get_option( $league_id . '_rank', array() );
+      $team_rank = get_rank_by_league_id( $league_id );
       Akaiv_Page::set_title( 'Rank' );
       Akaiv_Page::set_body_class( 'page-rank' );
       include_once THEME_PATH . '/pages/rank.php';

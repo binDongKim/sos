@@ -9,9 +9,9 @@
   <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
   <link rel="alternate" type="application/rss+xml" title="<?php echo get_bloginfo( 'name' ); ?> &mdash; 피드" href="<?php echo esc_url( get_feed_link() ); ?>">
   <script>
-    var teamList = JSON.parse('<?php echo json_encode(get_option('league_teams'), JSON_HEX_APOS); ?>');
-    var myTeamsFixtures = JSON.parse('<?php echo json_encode(get_option('my_teams_fixtures'), JSON_HEX_APOS); ?>');
-    var themeDir    = '<?php echo get_template_directory_uri(); ?>';
+    var teamList        = JSON.parse('<?php echo json_encode( get_league_teams(), JSON_HEX_APOS); ?>');
+    var myTeamsFixtures = JSON.parse('<?php echo json_encode( get_fixtures_by_myteams(), JSON_HEX_APOS ); ?>');
+    var themeDir        = '<?php echo get_template_directory_uri(); ?>';
   </script>
   <!--[if lt IE 9]>
   <script src="<?php echo esc_url( get_template_directory_uri() ); ?>/assets/html5shiv/dist/html5shiv.min.js"></script>
